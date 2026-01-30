@@ -1,4 +1,5 @@
 import { Router } from "express";
+import requireAuth from "../middleware/require-auth.js";
 
 const router = Router();
 
@@ -47,6 +48,16 @@ router.get("/callback", async (req, res) => {
     });
 
     res.redirect("/");
+});
+
+router.get("/user", requireAuth, (req, res) => {
+    const githubUsername = req.user;
+    console.log('Github Username:', req.user);
+    if (!githubUsername) {
+        return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    res.json({ username: githubUsername });
 });
 
 router.post("/logout", (req, res) => {

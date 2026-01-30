@@ -1,11 +1,11 @@
 import { Router } from "express";
+import requireAuth from "../middleware/require-auth.js";
 
 const router = Router();
 
-router.get("/", (req, res) => {
-
+router.get("/", requireAuth, (req, res) => {
     // read cookie username
-    const githubUsername = req.signedCookies.github_username;
+    const githubUsername = req.user;
     if (!githubUsername) {
         return res.status(401).json({ error: "Unauthorized" });
     }
