@@ -52,7 +52,6 @@ router.get("/callback", async (req, res) => {
 
 router.get("/user", requireAuth, (req, res) => {
     const githubUsername = req.user;
-    console.log('Github Username:', req.user);
     if (!githubUsername) {
         return res.status(401).json({ error: "Unauthorized" });
     }
@@ -62,7 +61,8 @@ router.get("/user", requireAuth, (req, res) => {
 
 router.post("/logout", (req, res) => {
     res.clearCookie("github_username");
-    res.json({ message: "Logged out successfully" });
+
+    res.json({ message: "Successfully logged out" });
 });
 
 export default router;
