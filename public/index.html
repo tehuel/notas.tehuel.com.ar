@@ -30,8 +30,9 @@
         </a>
 
         <!-- Logout -->
-        <button x-show="loggedIn" class="btn btn-danger" @click="logout">
-          Cerrar sesión
+        <button x-show="loggedIn" class="btn btn-outline-primary" @click="logout">
+          <i class="bi bi-x"></i>
+          Cerrar Sesión
         </button>
       </div>
     </div>
@@ -44,48 +45,129 @@
     </div>
 
     <!-- Grades -->
-    <div class="card shadow my-3" x-show="loggedIn && !loading && grades" x-transition>
+    <div class="card shadow-sm my-3" x-show="loggedIn && !loading && grades" x-transition>
 
       <!-- Header -->
-      <div class="card-header">
+      <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-center">
         <h5 class="my-2">
           <span x-text="$data.grades.Apellido"></span>,
           <span x-text="$data.grades.Nombre"></span>
         </h5>
-      </div>
 
-      <!-- Body -->
-      <div class="card-body">
-
-        <!-- Horizontal Nav -->
-        <div class="d-flex justify-content-center mb-3 gap-2">
+        <!-- Links -->
+        <div class="d-flex justify-content-center gap-2">
           <a
             :href="'https://github.com/' + $data.grades.Usuario" 
             target="_blank" 
-            class="btn btn-outline-primary"
+            class="btn btn-link"
           >
             <i class="bi bi-github"></i> Github
           </a>
           <a 
             :href="$data.grades.Repo" 
             target="_blank" 
-            class="btn btn-outline-primary"
+            class="btn btn-link"
           >
-            <i class="bi bi-folder"></i> Repositorio
+            <i class="bi bi-folder"></i> Repo
           </a>
           <a 
             :href="$data.grades.Pages" 
             target="_blank" 
-            class="btn btn-outline-primary"
+            class="btn btn-link"
           >
-            <i class="bi bi-globe"></i> Github Pages
+            <i class="bi bi-globe"></i> Pages
           </a>
         </div>
 
-        <p>Asistencia: <span x-text="$data.grades.Presentismo"></span></p>
+      </div>
 
-        <pre x-text="JSON.stringify($data.grades, null, 2)"></pre>
+      <!-- Body -->
+      <div class="card-body d-flex flex-column gap-3">
 
+        <!-- Grades Table -->
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle text-center my-0">
+            <thead>
+              <tr>
+                <th scope="col" colspan="3">1er Cuatrimestre</th>
+                <th scope="col" colspan="3">2do Cuatrimestre</th>
+                <th scope="col" colspan="3">Intensificación</th>
+                <th scope="col" colspan="2">Final</th>
+              </tr>
+              <tr>
+                <th scope="col">Informe</th>
+                <th scope="col">Nota</th>
+                <th scope="col">Presentismo</th>
+                <th scope="col">Informe</th>
+                <th scope="col">Nota</th>
+                <th scope="col">Presentismo</th>
+                <th scope="col">1era instancia</th>
+                <th scope="col">2da instancia</th>
+                <th scope="col">Nota</th>
+                <th scope="col">Nota</th>
+                <th scope="col">Presentismo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <!-- 1er Cuatrimestre Informe -->
+                <td x-text="$data.grades['1er Cuatrimestre Informe']"></td>
+
+                <!-- 1er Cuatrimestre Nota -->
+                <td x-text="$data.grades['1er Cuatrimestre']"></td>
+
+                <!-- 1er Cuatrimestre Presentismo -->
+                <td x-text="$data.grades['1er Cuatrimestre Presentismo']"></td>
+
+                <!-- 2do Cuatrimestre Informe -->
+                <td x-text="$data.grades['2do Cuatrimestre Informe']"></td>
+
+                <!-- 2do Cuatrimestre Nota -->
+                <td x-text="$data.grades['2do Cuatrimestre']"></td>
+
+                <!-- 2do Cuatrimestre Presentismo -->
+                <td x-text="$data.grades['2do Cuatrimestre Presentismo']"></td>
+
+                <!-- Intensificación 1era instancia -->
+                <td x-text="$data.grades['Intensificación 1era instancia']"></td>
+
+                <!-- Intensificación 2da instancia -->
+                <td x-text="$data.grades['Intensificación 2da instancia']"></td>
+
+                <!-- Intensificación Final -->
+                <td x-text="$data.grades['Intensificación Final']"></td>
+
+                <!-- Final Nota -->
+                <td x-text="$data.grades['Final Nota']"></td>
+
+                <!-- Final Presentismo -->
+                <td x-text="$data.grades['Final Presentismo']"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Trabajos Prácticos Table -->
+        <div class="table-responsive" x-show="trabajosPracticos().length">
+          <table class="table table-bordered align-middle text-center my-0">
+            <thead>
+              <tr>
+                <th scope="col">Trabajo Práctico</th>
+                <th scope="col">Resultado</th>
+                <th scope="col">Comentarios</th>
+              </tr>
+            </thead>
+            <tbody>
+              <template x-for="tp in trabajosPracticos()" :key="tp.id">
+                <tr>
+                  <td x-text="tp.trabajo"></td>
+                  <td x-text="tp.resultado"></td>
+                  <td x-text="tp.comentarios"></td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -100,6 +182,23 @@
         loggedIn: false,
         user: null,
         grades: null,
+
+        trabajosPracticos() {
+          if (!this.grades) return [];
+          const rows = [];
+          for (let i = 1; i <= 15; i++) {
+            const trabajoKey = `TP ${i}`;
+
+            if (this.grades[trabajoKey]) {
+              rows.push({
+                id: i,
+                trabajo: trabajoKey,
+                resultado: this.grades[trabajoKey],
+              });
+            }
+          }
+          return rows;
+        },
 
         async init() {
           await this.checkAuth();
