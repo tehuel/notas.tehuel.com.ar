@@ -12,25 +12,25 @@
   <script defer src="https://unpkg.com/alpinejs@3/dist/cdn.min.js"></script>
 </head>
 
-<body>
-
+<body class="bg-light d-flex flex-column min-vh-100">
   <div class="container-fluid my-3" x-data="notesApp()" x-init="init()">
 
     <div class="row align-items-center">
       <div class="col">
         <h1>Bienvenido</h1>
-        <p>Esta es una API simple para gestionar notas.</p>
+        <p>Consultá tu reporte de notas.</p>
       </div>
 
       <div class="col text-end">
         <!-- Login -->
-        <a x-show="!loggedIn && !loading" class="btn btn-primary"
-          href="https://github.com/login/oauth/authorize?client_id=Ov23ctUt77NuStUcvwJn&scope=read:user">
+        <button x-show="!loggedIn" class="btn btn-dark" @click="login" :disabled="loading">
+          
+          <i class="bi bi-github"></i>
           Login con GitHub
-        </a>
+        </button>
 
         <!-- Logout -->
-        <button x-show="loggedIn" class="btn btn-outline-primary" @click="logout">
+        <button x-show="loggedIn" class="btn btn-outline-primary" @click="logout" :disabled="loading">
           <i class="bi bi-x"></i>
           Cerrar Sesión
         </button>
@@ -38,143 +38,152 @@
     </div>
 
     <!-- Loading -->
-    <div x-show="loading" class="mt-3 text-center" x-transition>
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
+    <template x-if="loading">
+      <div class="mt-3 text-center">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
       </div>
-    </div>
+    </template>
+
+    <!-- Error -->
+    <template x-if="error">
+      <div class="alert alert-danger my-3" role="alert" x-text="error"></div>
+    </template>
 
     <!-- Grades -->
-    <div class="card shadow-sm my-3" x-show="loggedIn && !loading && grades" x-transition>
+    <template x-if="$data.loggedIn && !$data.loading && $data.grades">
+      <div class="card shadow-sm my-3">
 
-      <!-- Header -->
-      <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-center">
-        <h5 class="my-2">
-          <span x-text="$data.grades.Apellido"></span>,
-          <span x-text="$data.grades.Nombre"></span>
-        </h5>
+        <!-- Header -->
+        <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-center">
+          <h5 class="my-2">
+            <span x-text="$data.grades?.Apellido"></span>,
+            <span x-text="$data.grades?.Nombre"></span>
+          </h5>
 
-        <!-- Links -->
-        <div class="d-flex justify-content-center gap-2">
-          <a
-            :href="'https://github.com/' + $data.grades.Usuario" 
-            target="_blank" 
-            class="btn btn-link"
-          >
-            <i class="bi bi-github"></i> Github
-          </a>
-          <a 
-            :href="$data.grades.Repo" 
-            target="_blank" 
-            class="btn btn-link"
-          >
-            <i class="bi bi-folder"></i> Repo
-          </a>
-          <a 
-            :href="$data.grades.Pages" 
-            target="_blank" 
-            class="btn btn-link"
-          >
-            <i class="bi bi-globe"></i> Pages
-          </a>
+          <!-- Links -->
+          <div class="d-flex justify-content-center gap-2">
+            <a :href="'https://github.com/' + $data.grades?.Usuario" target="_blank" class="btn btn-link">
+              <i class="bi bi-github"></i> Github
+            </a>
+            <a :href="$data.grades?.Repo" target="_blank" class="btn btn-link">
+              <i class="bi bi-folder"></i> Repo
+            </a>
+            <a :href="$data.grades?.Pages" target="_blank" class="btn btn-link">
+              <i class="bi bi-globe"></i> Pages
+            </a>
+          </div>
+
         </div>
 
-      </div>
+        <!-- Body -->
+        <div class="card-body d-flex flex-column gap-3">
 
-      <!-- Body -->
-      <div class="card-body d-flex flex-column gap-3">
-
-        <!-- Grades Table -->
-        <div class="table-responsive">
-          <table class="table table-bordered align-middle text-center my-0">
-            <thead>
-              <tr>
-                <th scope="col" colspan="3">1er Cuatrimestre</th>
-                <th scope="col" colspan="3">2do Cuatrimestre</th>
-                <th scope="col" colspan="3">Intensificación</th>
-                <th scope="col" colspan="2">Final</th>
-              </tr>
-              <tr>
-                <th scope="col">Informe</th>
-                <th scope="col">Nota</th>
-                <th scope="col">Presentismo</th>
-                <th scope="col">Informe</th>
-                <th scope="col">Nota</th>
-                <th scope="col">Presentismo</th>
-                <th scope="col">1era instancia</th>
-                <th scope="col">2da instancia</th>
-                <th scope="col">Nota</th>
-                <th scope="col">Nota</th>
-                <th scope="col">Presentismo</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <!-- 1er Cuatrimestre Informe -->
-                <td x-text="$data.grades['1er Cuatrimestre Informe']"></td>
-
-                <!-- 1er Cuatrimestre Nota -->
-                <td x-text="$data.grades['1er Cuatrimestre']"></td>
-
-                <!-- 1er Cuatrimestre Presentismo -->
-                <td x-text="$data.grades['1er Cuatrimestre Presentismo']"></td>
-
-                <!-- 2do Cuatrimestre Informe -->
-                <td x-text="$data.grades['2do Cuatrimestre Informe']"></td>
-
-                <!-- 2do Cuatrimestre Nota -->
-                <td x-text="$data.grades['2do Cuatrimestre']"></td>
-
-                <!-- 2do Cuatrimestre Presentismo -->
-                <td x-text="$data.grades['2do Cuatrimestre Presentismo']"></td>
-
-                <!-- Intensificación 1era instancia -->
-                <td x-text="$data.grades['Intensificación 1era instancia']"></td>
-
-                <!-- Intensificación 2da instancia -->
-                <td x-text="$data.grades['Intensificación 2da instancia']"></td>
-
-                <!-- Intensificación Final -->
-                <td x-text="$data.grades['Intensificación Final']"></td>
-
-                <!-- Final Nota -->
-                <td x-text="$data.grades['Final Nota']"></td>
-
-                <!-- Final Presentismo -->
-                <td x-text="$data.grades['Final Presentismo']"></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Trabajos Prácticos Table -->
-        <div class="table-responsive" x-show="trabajosPracticos().length">
-          <table class="table table-bordered align-middle text-center my-0">
-            <thead>
-              <tr>
-                <th scope="col">Trabajo Práctico</th>
-                <th scope="col">Resultado</th>
-                <th scope="col">Comentarios</th>
-              </tr>
-            </thead>
-            <tbody>
-              <template x-for="tp in trabajosPracticos()" :key="tp.id">
+          <!-- Grades Table -->
+          <div class="table-responsive">
+            <table class="table table-bordered align-middle text-center my-0">
+              <thead>
                 <tr>
-                  <td x-text="tp.trabajo"></td>
-                  <td x-text="tp.resultado"></td>
-                  <td x-text="tp.comentarios"></td>
+                  <th scope="col" colspan="3">1er Cuatrimestre</th>
+                  <th scope="col" colspan="3">2do Cuatrimestre</th>
+                  <th scope="col" colspan="3">Intensificación</th>
+                  <th scope="col" colspan="2">Final</th>
                 </tr>
-              </template>
-            </tbody>
-          </table>
+                <tr>
+                  <th scope="col">Informe</th>
+                  <th scope="col">Nota</th>
+                  <th scope="col">Presentismo</th>
+                  <th scope="col">Informe</th>
+                  <th scope="col">Nota</th>
+                  <th scope="col">Presentismo</th>
+                  <th scope="col">1era instancia</th>
+                  <th scope="col">2da instancia</th>
+                  <th scope="col">Nota</th>
+                  <th scope="col">Nota</th>
+                  <th scope="col">Presentismo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <!-- 1er Cuatrimestre Informe -->
+                  <td x-text="$data.grades['1er Cuatrimestre Informe']"></td>
+
+                  <!-- 1er Cuatrimestre Nota -->
+                  <td x-text="$data.grades['1er Cuatrimestre']"></td>
+
+                  <!-- 1er Cuatrimestre Presentismo -->
+                  <td x-text="$data.grades['1er Cuatrimestre Presentismo']"></td>
+
+                  <!-- 2do Cuatrimestre Informe -->
+                  <td x-text="$data.grades['2do Cuatrimestre Informe']"></td>
+
+                  <!-- 2do Cuatrimestre Nota -->
+                  <td x-text="$data.grades['2do Cuatrimestre']"></td>
+
+                  <!-- 2do Cuatrimestre Presentismo -->
+                  <td x-text="$data.grades['2do Cuatrimestre Presentismo']"></td>
+
+                  <!-- Intensificación 1era instancia -->
+                  <td x-text="$data.grades['Intensificación 1era instancia']"></td>
+
+                  <!-- Intensificación 2da instancia -->
+                  <td x-text="$data.grades['Intensificación 2da instancia']"></td>
+
+                  <!-- Intensificación Final -->
+                  <td x-text="$data.grades['Intensificación Final']"></td>
+
+                  <!-- Final Nota -->
+                  <td x-text="$data.grades['Final Nota']"></td>
+
+                  <!-- Final Presentismo -->
+                  <td x-text="$data.grades['Final Presentismo']"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Trabajos Prácticos Table -->
+          <div class="table-responsive" x-show="trabajosPracticos.length">
+            <table class="table table-bordered align-middle text-center my-0">
+              <thead>
+                <tr>
+                  <th scope="col">Trabajo Práctico</th>
+                  <th scope="col">Resultado</th>
+                  <th scope="col">Comentarios</th>
+                </tr>
+              </thead>
+              <tbody>
+                <template x-for="tp in trabajosPracticos" :key="tp.id">
+                  <tr>
+                    <td x-text="tp.trabajo"></td>
+                    <td x-text="tp.resultado"></td>
+                    <td x-text="tp.comentarios"></td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
 
+    </template>
+  </div>
 
+  <div class="mt-auto">
+    <footer class="bg-dark text-white text-center py-3">
+      <div class="container">
+        &copy; 2026 notas.tehuel.com.ar |
+        <a href="https://github.com/tehuel/api-notas" class="text-white">Código Fuente</a>
+      </div>
+    </footer>
   </div>
 
   <script>
+    const TP_COUNT = 15;
+    const GITHUB_CLIENT_ID = "Ov23ctUt77NuStUcvwJn";
+    const GITHUB_LOGIN_URL = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=read:user`;
+
     function notesApp() {
       return {
         loading: true,
@@ -183,10 +192,11 @@
         user: null,
         grades: null,
 
-        trabajosPracticos() {
+        get trabajosPracticos() {
           if (!this.grades) return [];
+
           const rows = [];
-          for (let i = 1; i <= 15; i++) {
+          for (let i = 1; i <= TP_COUNT; i++) {
             const trabajoKey = `TP ${i}`;
 
             if (this.grades[trabajoKey]) {
@@ -223,6 +233,7 @@
         },
 
         async fetchGrades() {
+          this.error = null;
           const res = await fetch("/api/grades");
 
           if (res.status === 401) {
@@ -238,6 +249,11 @@
           this.grades = await res.json();
         },
 
+        login() {
+          this.loading = true;
+          window.location.href = GITHUB_LOGIN_URL;
+        },
+
         async logout() {
           await fetch("/auth/github/logout", { method: "POST" });
           location.reload();
@@ -245,7 +261,6 @@
       };
     }
   </script>
-
 </body>
 
 </html>
