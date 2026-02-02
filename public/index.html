@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +14,7 @@
 <body class="bg-light d-flex flex-column min-vh-100">
   <div class="container-fluid my-3" x-data="notesApp()" x-init="init()">
 
+    <!-- Header -->
     <div class="row align-items-center">
       <div class="col">
         <h1>Bienvenido</h1>
@@ -51,7 +51,7 @@
       <div class="alert alert-danger my-3" role="alert" x-text="error"></div>
     </template>
 
-    <!-- Grades -->
+    <!-- Grades Card -->
     <template x-if="$data.loggedIn && !$data.loading && $data.grades">
       <div class="card shadow-sm my-3">
 
@@ -166,10 +166,10 @@
           </div>
         </div>
       </div>
-
     </template>
   </div>
 
+  <!-- Footer -->
   <div class="mt-auto">
     <footer class="bg-dark text-white text-center py-3">
       <div class="container">
@@ -262,5 +262,4 @@
     }
   </script>
 </body>
-
 </html>
