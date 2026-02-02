@@ -3,6 +3,7 @@ import requireAuth from "../middleware/require-auth.js";
 
 const router = Router();
 
+// GET /api/github/callback
 router.get("/callback", async (req, res) => {
     const { code } = req.query;
 
@@ -50,6 +51,7 @@ router.get("/callback", async (req, res) => {
     res.redirect("/");
 });
 
+// GET /api/github/user
 router.get("/user", requireAuth, (req, res) => {
     const githubUsername = req.user;
     if (!githubUsername) {
@@ -59,6 +61,7 @@ router.get("/user", requireAuth, (req, res) => {
     res.json({ username: githubUsername });
 });
 
+// POST /api/github/logout
 router.post("/logout", (req, res) => {
     res.clearCookie("github_username");
 

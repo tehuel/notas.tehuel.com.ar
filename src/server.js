@@ -13,11 +13,10 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-app.use(cookieParser( process.env.APP_SECRET ));
 app.use(
   express.static(path.join(__dirname, "../public"))
 );
-
+app.use(cookieParser( process.env.APP_SECRET ));
 app.use(express.json());
 app.use("/api/grades", gradesRouter);
 app.use("/auth/github", githubRouter);
