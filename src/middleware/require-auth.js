@@ -1,13 +1,14 @@
-function requireAuth(req, res, next) {
+// Authentication middleware
+const requireAuth = (req, res, next) => {
   const user = req.signedCookies.github_username;
 
   if (!user) {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
-  // attach user to request for later use
+  // Attach user to request for later use
   req.user = user;
   next();
-}
+};
 
 export default requireAuth;
