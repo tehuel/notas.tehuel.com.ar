@@ -1,6 +1,6 @@
-# App de Notas
+# notas.tehuel.com.ar
 
-Aplicación web para gestionar notas (frontend HTML + backend NodeJS) de Plataformas Móviles.
+Aplicación web (frontend HTML + backend NodeJS) para acceder a reporte de notas de Plataformas Móviles.
 
 ## Inicio rápido
 - Instalar dependencias: `npm install`.

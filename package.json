@@ -1,5 +1,5 @@
 {
-  "name": "api-notas",
+  "name": "notas.tehuel.com.ar",
   "type": "module",
   "scripts": {
     "start": "node src/server.js",
