@@ -16,12 +16,18 @@ router.get("/", requireAuth, async (req, res) => {
     const spreadsheetRequest = await fetch(url);
     const spreadsheetData = await spreadsheetRequest.json();
 
+    // Validate spreadsheet data
+    if (!Array.isArray(spreadsheetData)) {
+        return res.status(500).json({ error: "Invalid spreadsheet data" });
+    }
+
     // Find student data by GitHub username
     const studentData = spreadsheetData.find((student => student.Usuario === githubUsername));
     if (!studentData) {
         return res.status(404).json({ error: "Student data not found" });
     }
 
+    // Finally, return student data
     res.json({ ...studentData });
 });
 
