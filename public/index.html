@@ -241,8 +241,13 @@
             return;
           }
 
+          if (res.status === 404) {
+            this.error = "No se encontraron datos para este alumno.";
+            return;
+          }
+
           if (!res.ok) {
-            this.error = "Error al obtener las notas";
+            this.error = "Error al obtener datos.";
             return;
           }
 
