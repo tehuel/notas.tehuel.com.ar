@@ -26,11 +26,10 @@
 
       <div class="col-12 col-sm-auto text-end">
         <!-- Login -->
-        <button x-show="!loggedIn" class="btn btn-dark" @click="login" :disabled="loading">
-          
+        <a x-show="!loggedIn" class="btn btn-dark" :class="{ 'disabled': loading }" @click="loading = true" :href="githubLoginUrl">
           <i class="bi bi-github"></i>
           Login con GitHub
-        </button>
+        </a>
 
         <!-- Logout -->
         <button x-show="loggedIn" class="btn btn-outline-primary" @click="logout" :disabled="loading">
@@ -185,8 +184,6 @@
 
   <script>
     const TP_COUNT = 15;
-    const GITHUB_CLIENT_ID = "Ov23ctUt77NuStUcvwJn";
-    const GITHUB_LOGIN_URL = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=read:user`;
 
     function notesApp() {
       return {
@@ -212,6 +209,11 @@
             }
           }
           return rows;
+        },
+
+        get githubLoginUrl() {
+          const clientId = "Ov23li1Ce1nezXP4Au8i";
+          return `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=read:user`;
         },
 
         async init() {
@@ -256,11 +258,6 @@
           }
 
           this.grades = await res.json();
-        },
-
-        login() {
-          this.loading = true;
-          window.location.href = GITHUB_LOGIN_URL;
         },
 
         async logout() {
