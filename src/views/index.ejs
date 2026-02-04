@@ -200,7 +200,11 @@
         <span>&copy; 2026 notas.tehuel.com.ar</span>
         <a target="_blank" rel="noopener noreferrer" href="https://github.com/tehuel/notas.tehuel.com.ar" class="text-white">Código Fuente</a>
         <a target="_blank" rel="noopener noreferrer" href="https://docs.google.com/forms/d/e/1FAIpQLSeWBg9srr97tEeX95B7O6hiRlItU8YBNNbKxFVWrDVM8gJq7g/viewform?usp=publish-editor" class="text-white">Enviar Comentario</a>
-        <span><%= version %></span>
+        <% if (version !== 'dev') { %>
+          <a target="_blank" rel="noopener noreferrer" href="https://github.com/tehuel/notas.tehuel.com.ar/commit/<%= version %>" class="text-white"><%= version.substring(0, 7) %></a>
+        <% } else { %>
+          <span><%= version %></span>
+        <% } %>
       </div>
     </footer>
   </div>
