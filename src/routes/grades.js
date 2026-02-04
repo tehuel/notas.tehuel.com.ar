@@ -1,29 +1,32 @@
 import { Router } from "express";
 import requireAuth from "../middleware/require-auth.js";
+import { getStudentByUsername } from "../clients/spreadsheet-api-client.js";
 
 const router = Router();
 
 // GET /api/grades
 router.get("/", requireAuth, async (req, res) => {
-    // Fetch spreadsheet data from OpenSheet API
-    const url = `https://opensheet.elk.sh/${process.env.SPREADSHEET_ID}/${process.env.SHEET_NAME}`;
-    const spreadsheetRequest = await fetch(url);
-    const spreadsheetData = await spreadsheetRequest.json();
+    try {
+        const githubUsername = req.user;
 
-    // Validate spreadsheet data
-    if (!Array.isArray(spreadsheetData)) {
-        return res.status(500).json({ error: "Invalid spreadsheet data" });
+        // Fetch student data from spreadsheet
+        const studentData = await getStudentByUsername(
+            githubUsername,
+            process.env.SPREADSHEET_ID,
+            process.env.SHEET_NAME
+        );
+
+        // Return student data
+        res.json({ ...studentData });
+    } catch (error) {
+        console.error("Grades fetch error:", error);
+
+        if (error.message.includes("Student not found")) {
+            return res.status(404).json({ error: error.message });
+        }
+
+        return res.status(500).json({ error: error.message });
     }
-
-    // Find student data by GitHub username
-    const githubUsername = req.user;
-    const studentData = spreadsheetData.find((student => student.Usuario === githubUsername));
-    if (!studentData) {
-        return res.status(404).json({ error: "Student data not found" });
-    }
-
-    // Finally, return student data
-    res.json({ ...studentData });
 });
 
 export default router;
