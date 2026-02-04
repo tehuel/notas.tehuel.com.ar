@@ -24,9 +24,7 @@ app.use(cookieParser(process.env.APP_SECRET));
 
 // Render index page with dynamic GitHub Client ID
 app.get("/", (req, res) => {
-  res.render("index", {
-    githubClientId: process.env.GITHUB_CLIENT_ID || "Ov23li1Ce1nezXP4Au8i"
-  });
+  res.render("index", { githubClientId: process.env.GITHUB_CLIENT_ID });
 });
 
 app.use("/api/grades", gradesRouter);
