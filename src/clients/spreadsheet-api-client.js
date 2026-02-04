@@ -1,6 +1,12 @@
 import { fetcher } from "./base-api-client.js";
 
 const OPENSHEET_BASE = "https://opensheet.elk.sh";
+const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
+const SHEET_NAME = process.env.SHEET_NAME;
+
+if (!SPREADSHEET_ID || !SHEET_NAME) {
+  throw new Error("SPREADSHEET_ID and SHEET_NAME environment variables are required");
+}
 
 /**
  * Fetches all data from the spreadsheet
@@ -8,14 +14,7 @@ const OPENSHEET_BASE = "https://opensheet.elk.sh";
  * @throws {Error} If fetch fails or data is invalid
  */
 async function getSpreadsheetData() {
-  const spreadsheetId = process.env.SPREADSHEET_ID;
-  const sheetName = process.env.SHEET_NAME;
-
-  if (!spreadsheetId || !sheetName) {
-    throw new Error("SPREADSHEET_ID and SHEET_NAME environment variables are required");
-  }
-
-  const data = await fetcher(`${OPENSHEET_BASE}/${spreadsheetId}/${sheetName}`);
+  const data = await fetcher(`${OPENSHEET_BASE}/${SPREADSHEET_ID}/${SHEET_NAME}`);
 
   if (!Array.isArray(data)) {
     throw new Error("Invalid spreadsheet data: expected an array");
