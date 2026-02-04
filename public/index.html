@@ -9,6 +9,11 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/lumen/bootstrap.min.css">
 
+  <style>
+    /* Evitar parpadeos al cargar */
+    [x-cloak] { display: none !important; }
+  </style>
+
   <script defer src="https://unpkg.com/alpinejs@3/dist/cdn.min.js"></script>
 </head>
 
@@ -27,13 +32,13 @@
 
       <div class="col-12 col-sm-auto text-end">
         <!-- Login -->
-        <a x-show="!loggedIn" class="btn btn-dark" :class="{ 'disabled': loading }" @click="loading = true" :href="githubLoginUrl">
+        <a x-cloak x-show="!loggedIn" class="btn btn-dark" :class="{ 'disabled': loading }" @click="loading = true" :href="githubLoginUrl">
           <i class="bi bi-github"></i>
           Login con GitHub
         </a>
 
         <!-- Logout -->
-        <button x-show="loggedIn" class="btn btn-link" @click="logout" :disabled="loading">
+        <button x-cloak x-show="loggedIn" class="btn btn-link" @click="logout" :disabled="loading">
           <i class="bi bi-x-circle"></i>
           Cerrar Sesión
         </button>
