@@ -10,11 +10,7 @@ router.get("/", requireAuth, async (req, res) => {
         const githubUsername = req.user;
 
         // Fetch student data from spreadsheet
-        const studentData = await getStudentByUsername(
-            githubUsername,
-            process.env.SPREADSHEET_ID,
-            process.env.SHEET_NAME
-        );
+        const studentData = await getStudentByUsername(githubUsername);
 
         // Return student data
         res.json({ ...studentData });

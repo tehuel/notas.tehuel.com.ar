@@ -4,14 +4,15 @@ const OPENSHEET_BASE = "https://opensheet.elk.sh";
 
 /**
  * Fetches all data from the spreadsheet
- * @param {string} spreadsheetId - The spreadsheet ID
- * @param {string} sheetName - The sheet name
  * @returns {Promise<Array>} Array of spreadsheet rows
  * @throws {Error} If fetch fails or data is invalid
  */
-async function getSpreadsheetData(spreadsheetId, sheetName) {
+async function getSpreadsheetData() {
+  const spreadsheetId = process.env.SPREADSHEET_ID;
+  const sheetName = process.env.SHEET_NAME;
+
   if (!spreadsheetId || !sheetName) {
-    throw new Error("Spreadsheet ID and sheet name are required");
+    throw new Error("SPREADSHEET_ID and SHEET_NAME environment variables are required");
   }
 
   const data = await fetcher(`${OPENSHEET_BASE}/${spreadsheetId}/${sheetName}`);
@@ -26,15 +27,13 @@ async function getSpreadsheetData(spreadsheetId, sheetName) {
 /**
  * Finds a student record by GitHub username
  * @param {string} username - GitHub username
- * @param {string} spreadsheetId - The spreadsheet ID
- * @param {string} sheetName - The sheet name
  * @returns {Promise<Object>} Student data
  * @throws {Error} If student not found or fetch fails
  */
-export async function getStudentByUsername(username, spreadsheetId, sheetName) {
+export async function getStudentByUsername(username) {
   if (!username) throw new Error("Username is required");
 
-  const data = await getSpreadsheetData(spreadsheetId, sheetName);
+  const data = await getSpreadsheetData();
   const student = data.find((row) => row.Usuario === username);
 
   if (!student) {
