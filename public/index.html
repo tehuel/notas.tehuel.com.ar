@@ -7,6 +7,7 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/lumen/bootstrap.min.css">
 
   <script defer src="https://unpkg.com/alpinejs@3/dist/cdn.min.js"></script>
 </head>
@@ -32,8 +33,8 @@
         </a>
 
         <!-- Logout -->
-        <button x-show="loggedIn" class="btn btn-outline-primary" @click="logout" :disabled="loading">
-          <i class="bi bi-x"></i>
+        <button x-show="loggedIn" class="btn btn-link" @click="logout" :disabled="loading">
+          <i class="bi bi-x-circle"></i>
           Cerrar Sesión
         </button>
       </div>
@@ -189,7 +190,7 @@
 
   <!-- Footer -->
   <div class="mt-auto">
-    <footer class="bg-secondary bg-gradient text-white text-center py-5">
+    <footer class="bg-primary bg-gradient text-white text-center py-5">
       <div class="container d-flex flex-column flex-md-row justify-content-center gap-3">
         <span class="text-white">&copy; 2026 notas.tehuel.com.ar</span>
         <a target="_blank" rel="noopener noreferrer" href="https://github.com/tehuel/notas.tehuel.com.ar" class="text-white">Código Fuente</a>
