@@ -20,7 +20,6 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.json());
 app.use(morgan("dev"));
-app.use(errorHandler);
 app.use(cookieParser(process.env.APP_SECRET));
 
 // Render index page with dynamic GitHub Client ID
@@ -32,6 +31,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/grades", gradesRouter);
 app.use("/auth/github", githubRouter);
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () =>
