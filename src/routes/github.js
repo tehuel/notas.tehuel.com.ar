@@ -53,12 +53,8 @@ router.get("/callback", async (req, res) => {
 
 // GET /api/github/user
 router.get("/user", requireAuth, (req, res) => {
-    const githubUsername = req.user;
-    if (!githubUsername) {
-        return res.status(401).json({ error: "Unauthorized" });
-    }
-
-    res.json({ username: githubUsername });
+    const username = req.user;
+    res.json({ username });
 });
 
 // POST /api/github/logout
