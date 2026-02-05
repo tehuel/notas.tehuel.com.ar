@@ -2,12 +2,6 @@ import { fetcher } from "./base-api-client.js";
 
 const GITHUB_API_BASE = "https://api.github.com";
 const GITHUB_OAUTH_BASE = "https://github.com/login/oauth";
-const CLIENT_ID = process.env.GITHUB_CLIENT_ID;
-const CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
-
-if (!CLIENT_ID || !CLIENT_SECRET) {
-  throw new Error("GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET environment variables are required");
-}
 
 /**
  * Exchanges authorization code for access token
@@ -18,6 +12,10 @@ if (!CLIENT_ID || !CLIENT_SECRET) {
 export async function getAccessToken(code) {
   if (!code) throw new Error("Authorization code is required");
 
+  if (!process.env.GITHUB_CLIENT_ID || !process.env.GITHUB_CLIENT_SECRET) {
+    throw new Error("GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET environment variables are required");
+  }
+
   const tokenData = await fetcher(`${GITHUB_OAUTH_BASE}/access_token`, {
     method: "POST",
     headers: {
@@ -25,8 +23,8 @@ export async function getAccessToken(code) {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      client_id: CLIENT_ID,
-      client_secret: CLIENT_SECRET,
+      client_id: process.env.GITHUB_CLIENT_ID,
+      client_secret: process.env.GITHUB_CLIENT_SECRET,
       code
     })
   });
