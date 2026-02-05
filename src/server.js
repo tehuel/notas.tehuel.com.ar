@@ -4,6 +4,7 @@ import path from "path";
 import morgan from "morgan";
 import errorHandler from "./middleware/error-handler.js";
 import cookieParser from "cookie-parser";
+import indexRouter from "./routes/index.js";
 import gradesRouter from "./routes/grades.js";
 import githubRouter from "./routes/github.js";
 
@@ -22,14 +23,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser(process.env.APP_SECRET));
 
-// Render index page with dynamic GitHub Client ID
-app.get("/", (req, res) => {
-  res.render("index", { 
-    githubClientId: process.env.GITHUB_CLIENT_ID,
-    version: process.env.GITHUB_SHA || "dev",
-  });
-});
-
+app.use("/", indexRouter);
 app.use("/api/grades", gradesRouter);
 app.use("/auth/github", githubRouter);
 
