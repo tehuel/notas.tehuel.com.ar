@@ -1,7 +1,6 @@
 // Error handling middleware
-const errorHandler = (err, req, res, next) => {
+export default (err, req, res, next) => {
   console.error("Unhandled error:", err);
+  
   res.status(500).json({ error: "Internal Server Error" });
 };
-
-export default errorHandler;

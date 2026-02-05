@@ -1,5 +1,5 @@
 // Authentication middleware
-const requireAuth = (req, res, next) => {
+export default (req, res, next) => {
   const user = req.signedCookies.github_username;
 
   if (!user) {
@@ -8,7 +8,6 @@ const requireAuth = (req, res, next) => {
 
   // Attach user to request for later use
   req.user = user;
+
   next();
 };
-
-export default requireAuth;
