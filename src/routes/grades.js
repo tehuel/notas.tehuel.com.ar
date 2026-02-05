@@ -7,10 +7,10 @@ const router = Router();
 // GET /api/grades
 router.get("/", requireAuth, async (req, res) => {
     try {
-        const githubUsername = req.user;
+        const username = req.user;
 
         // Fetch student data from spreadsheet
-        const studentData = await getStudentByUsername(githubUsername);
+        const studentData = await getStudentByUsername(username);
 
         // Return student data
         res.json({ ...studentData });
