@@ -3,21 +3,11 @@ async function handleError(response) {
     let errorMessage = `${response.status} ${response.statusText}`;
 
     try {
-      const errorData = await response.json();
-      if (errorData.error) {
-        errorMessage = errorData.error;
-      } else if (errorData.message) {
-        errorMessage = errorData.message;
-      } else if (errorData.error_description) {
-        errorMessage = errorData.error_description;
-      }
-    } catch (e) {
-      // Use default error message if JSON parsing fails
-    }
+      const { error, message, error_description } = await response.json();
+      errorMessage = error || message || error_description || errorMessage;
+    } catch (e) {}
 
-    const error = new Error(errorMessage);
-    error.status = response.status;
-    throw error;
+    throw new Error(errorMessage);
   }
 }
 
