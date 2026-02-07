@@ -31,7 +31,7 @@ export async function getStudentByUsername(username) {
   if (!username) throw new Error("Username is required");
 
   const data = await getSpreadsheetData();
-  const student = data.find((row) => row.Usuario === username);
+  const student = data.find((row) => row.usuario === username);
 
   if (!student) {
     throw new Error(`Student not found for username: ${username}`);

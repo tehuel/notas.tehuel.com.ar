@@ -66,19 +66,19 @@
         <!-- Header -->
         <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-center">
           <h5 class="my-2">
-            <span x-text="$data.grades?.Apellido"></span>,
-            <span x-text="$data.grades?.Nombre"></span>
+            <span x-text="$data.grades?.apellido"></span>,
+            <span x-text="$data.grades?.nombre"></span>
           </h5>
 
           <!-- Links -->
           <div class="d-flex justify-content-center gap-2">
-            <a :href="'https://github.com/' + $data.grades?.Usuario" target="_blank" class="btn btn-link">
+            <a :href="'https://github.com/' + $data.grades?.usuario" target="_blank" class="btn btn-link">
               <i class="bi bi-github"></i> Github
             </a>
-            <a :href="$data.grades?.Repo" target="_blank" class="btn btn-link">
+            <a :href="$data.grades?.repo" target="_blank" class="btn btn-link">
               <i class="bi bi-folder"></i> Repo
             </a>
-            <a :href="$data.grades?.Pages" target="_blank" class="btn btn-link">
+            <a :href="$data.grades?.pages" target="_blank" class="btn btn-link">
               <i class="bi bi-globe"></i> Pages
             </a>
           </div>
@@ -96,15 +96,15 @@
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item d-flex justify-content-between">
                     <span>Informe</span>
-                    <span x-text="$data.grades['1er Informe']"></span>
+                    <span x-text="$data.grades['1c-informe']"></span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between">
                     <span>Nota</span>
-                    <span x-text="$data.grades['1er Cuatrimestre']"></span>
+                    <span x-text="$data.grades['1c-nota']"></span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between">
                     <span>Presentismo</span>
-                    <span x-text="$data.grades['1er Presentismo']"></span>
+                    <span x-text="$data.grades['1c-presentismo']"></span>
                   </li>
                 </ul>
               </div>
@@ -116,15 +116,15 @@
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item d-flex justify-content-between">
                     <span>Informe</span>
-                    <span x-text="$data.grades['2do Informe']"></span>
+                    <span x-text="$data.grades['2c-informe']"></span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between">
                     <span>Nota</span>
-                    <span x-text="$data.grades['2do Cuatrimestre']"></span>
+                    <span x-text="$data.grades['2c-nota']"></span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between">
                     <span>Presentismo</span>
-                    <span x-text="$data.grades['2do Presentismo']"></span>
+                    <span x-text="$data.grades['2c-presentismo']"></span>
                   </li>
                 </ul>
               </div>
@@ -136,15 +136,15 @@
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item d-flex justify-content-between">
                     <span>1era instancia</span>
-                    <span x-text="$data.grades['Intensificación 1']"></span>
+                    <span x-text="$data.grades['intensifica-1']"></span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between">
                     <span>2da instancia</span>
-                    <span x-text="$data.grades['Intensificación 2']"></span>
+                    <span x-text="$data.grades['intensifica-2']"></span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between">
                     <span>Nota</span>
-                    <span x-text="$data.grades['Intensificación Final']"></span>
+                    <span x-text="$data.grades['intensifica-nota']"></span>
                   </li>
                 </ul>
               </div>
@@ -156,11 +156,11 @@
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item d-flex justify-content-between">
                     <span>Nota</span>
-                    <span x-text="$data.grades['Final']"></span>
+                    <span x-text="$data.grades['final-nota']"></span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between">
                     <span>Presentismo</span>
-                    <span x-text="$data.grades['Final Presentismo']"></span>
+                    <span x-text="$data.grades['final-presentismo']"></span>
                   </li>
                 </ul>
               </div>
@@ -223,13 +223,15 @@
 
           const rows = [];
           for (let i = 1; i <= TP_COUNT; i++) {
-            const trabajoKey = `TP ${i}`;
+            const notaKey = `nota-tp${i}`;
+            const comentarioKey = `comentario-tp${i}`;
 
-            if (this.grades[trabajoKey]) {
+            if (this.grades[notaKey]) {
               rows.push({
                 id: i,
-                trabajo: trabajoKey,
-                resultado: this.grades[trabajoKey],
+                trabajo: `TP ${i}`,
+                resultado: this.grades[notaKey],
+                comentarios: this.grades[comentarioKey] || '',
               });
             }
           }
