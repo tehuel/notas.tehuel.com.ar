@@ -20,7 +20,7 @@
 </head>
 
 <body class="bg-light d-flex flex-column min-vh-100">
-<div class="container-fluid my-3" x-data="notesApp()" x-init="init()">
+<div class="container-fluid my-3" x-data="notasApp()" x-init="init()">
 
     <!-- Header -->
     <div class="row align-items-center g-3">
@@ -221,7 +221,7 @@
 <script>
     const TP_COUNT = 15;
 
-    function notesApp() {
+    function notasApp() {
         return {
             loading: true,
             error: null,
