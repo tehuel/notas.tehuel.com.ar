@@ -118,81 +118,24 @@
                 <!-- Grades Cards (Vertical Layout) -->
                 <h2 class="h4 mt-4">Planilla de Notas</h2>
                 <div class="row g-3">
-                    <div class="col-12 col-sm-6 col-lg-3">
-                        <div class="card">
-                            <div class="card-header fw-semibold">1er Cuatrimestre</div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Informe</span>
-                                    <span x-text="$data.grades['1c-informe']"></span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Nota</span>
-                                    <span x-text="$data.grades['1c-nota']"></span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Presentismo</span>
-                                    <span x-text="$data.grades['1c-presentismo']"></span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
 
-                    <div class="col-12 col-sm-6 col-lg-3">
-                        <div class="card">
-                            <div class="card-header fw-semibold">2do Cuatrimestre</div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Informe</span>
-                                    <span x-text="$data.grades['2c-informe']"></span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Nota</span>
-                                    <span x-text="$data.grades['2c-nota']"></span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Presentismo</span>
-                                    <span x-text="$data.grades['2c-presentismo']"></span>
-                                </li>
-                            </ul>
+                    <template x-for="card in gradesCards" :key="card.title">
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card">
+                                <div class="card-header fw-semibold">
+                                    <span x-text="card.title"></span>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <template x-for="row in card.items" >
+                                        <li class="list-group-item d-flex justify-content-between">
+                                            <span x-text="row.label"></span>
+                                            <span x-text="row.value"></span>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-lg-3" :class="{ 'opacity-50': true }">
-                        <div class="card">
-                            <div class="card-header fw-semibold">Intensificación</div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>1era instancia</span>
-                                    <span x-text="$data.grades['intensifica-1']"></span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>2da instancia</span>
-                                    <span x-text="$data.grades['intensifica-2']"></span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Nota</span>
-                                    <span x-text="$data.grades['intensifica-nota']"></span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-lg-3">
-                        <div class="card">
-                            <div class="card-header fw-semibold">Final</div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Nota</span>
-                                    <span x-text="$data.grades['final-nota']"></span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Presentismo</span>
-                                    <span x-text="$data.grades['final-presentismo']"></span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    </template>
                 </div>
             </div>
         </div>
@@ -247,6 +190,44 @@
                     }
                 }
                 return rows;
+            },
+
+            get gradesCards() {
+                const gradesCards = [];
+                const cardsConfig = {
+                    "1er Cuatrimestre": {
+                        "Informe": "1c-informe",
+                        "Nota": "1c-nota",
+                        "Presentismo": "1c-presentismo",
+                    },
+                    "2do Cuatrimestre": {
+                        "Informe": "1c-informe",
+                        "Nota": "1c-nota",
+                        "Presentismo": "1c-presentismo",
+                    },
+                    "Intensificación": {
+                        "1ra Instancia": "intensifica-1",
+                        "2da Instancia": "intensifica-2",
+                        "Final": "intensifica-nota",
+                    },
+                    "Final": {
+                        "Nota": "final-nota",
+                        "Presentismo": "final-presentismo",
+                    },
+                };
+
+                Object.entries(cardsConfig).forEach(([cardTitle, rows]) => {
+                    const items = Object.entries(rows).map(([label, key]) => ({
+                        label,
+                        value: this.grades[key] || '-'
+                    }));
+                    gradesCards.push({
+                        title: cardTitle,
+                        items
+                    });
+                });
+
+                return gradesCards;
             },
 
             async init() {
