@@ -121,7 +121,7 @@
 
                     <template x-for="card in gradesCards" :key="card.title">
                         <div class="col-12 col-sm-6 col-lg-3">
-                            <div class="card">
+                            <div class="card" :class="{ 'opacity-50': card.disabled }">
                                 <div class="card-header fw-semibold">
                                     <span x-text="card.title"></span>
                                 </div>
@@ -221,9 +221,13 @@
                         label,
                         value: this.grades[key] || '-'
                     }));
+
+                    const disabled = items.every(item => item.value === '-');
+
                     gradesCards.push({
                         title: cardTitle,
-                        items
+                        items,
+                        disabled,
                     });
                 });
 
