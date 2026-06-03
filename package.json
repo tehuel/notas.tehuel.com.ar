@@ -6,12 +6,20 @@
     "prestart": "npm run build",
     "start": "node src/server.js",
     "predev": "npm run build",
-    "dev": "node --watch src/server.js"
+    "dev": "node --watch src/server.js",
+    "lint": "eslint . --ext .js --no-ignore",
+    "lint:fix": "eslint . --ext .js --fix"
   },
   "dependencies": {
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "morgan": "^1.10.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.2",
+    "eslint-plugin-prettier": "^5.5.6",
+    "prettier": "^3.8.3"
   }
 }

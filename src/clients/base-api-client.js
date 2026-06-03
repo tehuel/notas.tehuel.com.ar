@@ -5,7 +5,9 @@ async function handleError(response) {
     try {
       const { error, message, error_description } = await response.json();
       errorMessage = error || message || error_description || errorMessage;
-    } catch (e) {}
+    } catch (e) {
+      console.error('Error parsing API error response:', e);
+    }
 
     throw new Error(errorMessage);
   }
