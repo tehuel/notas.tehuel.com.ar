@@ -13,9 +13,7 @@ export async function getAccessToken(code) {
   if (!code) throw new Error('Authorization code is required');
 
   if (!process.env.GITHUB_CLIENT_ID || !process.env.GITHUB_CLIENT_SECRET) {
-    throw new Error(
-      'GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET environment variables are required'
-    );
+    throw new Error('GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET environment variables are required');
   }
 
   const tokenData = await fetcher(`${GITHUB_OAUTH_BASE}/access_token`, {
@@ -32,9 +30,7 @@ export async function getAccessToken(code) {
   });
 
   if (tokenData.error) {
-    throw new Error(
-      tokenData.error_description || 'Failed to obtain access token'
-    );
+    throw new Error(tokenData.error_description || 'Failed to obtain access token');
   }
 
   return tokenData.access_token;

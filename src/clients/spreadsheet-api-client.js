@@ -9,14 +9,10 @@ const OPENSHEET_BASE = 'https://opensheet.elk.sh';
  */
 async function getSpreadsheetData() {
   if (!process.env.SPREADSHEET_ID || !process.env.SHEET_NAME) {
-    throw new Error(
-      'SPREADSHEET_ID and SHEET_NAME environment variables are required'
-    );
+    throw new Error('SPREADSHEET_ID and SHEET_NAME environment variables are required');
   }
 
-  const data = await fetcher(
-    `${OPENSHEET_BASE}/${process.env.SPREADSHEET_ID}/${process.env.SHEET_NAME}`
-  );
+  const data = await fetcher(`${OPENSHEET_BASE}/${process.env.SPREADSHEET_ID}/${process.env.SHEET_NAME}`);
 
   if (!Array.isArray(data)) {
     throw new Error('Invalid spreadsheet data: expected an array');
