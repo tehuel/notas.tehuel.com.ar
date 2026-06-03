@@ -8,9 +8,15 @@ const rootDir = path.dirname(new URL(import.meta.url).pathname);
 const sourceDir = path.join(rootDir, 'src/static');
 const outputDir = path.join(rootDir, 'public');
 
+const sha = process.env.GITHUB_SHA || 'dev';
+const shaShort = sha.substring(0, 7);
+const versionLink = sha === 'dev'
+  ? ''
+  : `<a target="_blank" rel="noopener noreferrer" id="versionLink" href="https://github.com/tehuel/notas.tehuel.com.ar/commit/${sha}" class="text-white">${shaShort}</a>`;
+
 const replacements = new Map([
   ['__GITHUB_CLIENT_ID__', process.env.GITHUB_CLIENT_ID || ''],
-  ['__GITHUB_SHA__', process.env.GITHUB_SHA || 'dev'],
+  ['__VERSION_LINK__', versionLink],
 ]);
 
 const applyReplacements = (content) => {

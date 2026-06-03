@@ -1,5 +1,3 @@
-const BUILD_VERSION = '__GITHUB_SHA__';
-
 window.notasApp = function notasApp() {
   const TP_COUNT = 15;
 
@@ -80,7 +78,6 @@ window.notasApp = function notasApp() {
       }
 
       this.loading = false;
-      this.renderVersionLink();
     },
 
     async checkAuth() {
@@ -120,16 +117,6 @@ window.notasApp = function notasApp() {
     async logout() {
       await fetch('/auth/github/logout', { method: 'POST' });
       location.reload();
-    },
-
-    renderVersionLink() {
-      const versionLink = document.getElementById('versionLink');
-
-      if (!versionLink || BUILD_VERSION === 'dev') {
-        return;
-      }
-
-      versionLink.innerHTML = `<a target="_blank" rel="noopener noreferrer" href="https://github.com/tehuel/notas.tehuel.com.ar/commit/${BUILD_VERSION}" class="text-white">${BUILD_VERSION.substring(0, 7)}</a>`;
     },
   };
 };
