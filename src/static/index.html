@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notas Plataformas Móviles - notas.tehuel.com.ar</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/lumen/bootstrap.min.css">
-
     <style>
         [x-cloak] {
             display: none !important;
         }
     </style>
 
-    <script defer src="https://unpkg.com/alpinejs@3/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/lumen/bootstrap.min.css">
+    <script defer src="/app.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.12/dist/cdn.min.js"></script>
 </head>
 
 <body class="bg-light d-flex flex-column min-vh-100">
-<div class="container-fluid my-3" x-data="notasApp()" x-init="init()">
+<div class="container-fluid my-3" x-data="notasApp" x-init="init()">
     <div class="row align-items-center g-3">
         <div class="col-auto">
             <img src="/logo.svg" alt="Logo" height="48">
@@ -138,6 +138,5 @@
     </footer>
 </div>
 
-<script type="module" src="/app.js"></script>
 </body>
 </html>
